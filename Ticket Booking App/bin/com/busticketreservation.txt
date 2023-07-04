@@ -1,0 +1,152 @@
+bus ticket reservation system\\\\\
+
+
+create table Admin 
+(
+name varchar(12),
+username varchar(12) unique not null,
+password varchar(12),
+contact varchar(10) primary key,
+email varchar(15)
+)
+
+mysql> desc admin;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| name     | varchar(12) | YES  |     | NULL    |       |
+| username | varchar(12) | NO   | PRI | NULL    |       |
+| password | varchar(12) | YES  |     | NULL    |       |
+| contact  | varchar(12) | YES  | UNI | NULL    |       |
+| email    | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+
+create table busdetail 
+(
+bid int primary key auto_increment,
+bname varchar(12),
+routId int,
+btype varchar(12),
+bseats int,
+dtime time,
+atime time,
+helpline varchar(10),
+foreign key(helpline) references admin(contact) ON DELETE CASCADE,
+foreign key(routId) references busroute(routId) ON DELETE CASCADE  
+)
+
+insert into busdetail(bname, routId, btype, bseats, dtime, atime,helpline) values('SRV Travels', 1, 'AC',15, '02:00:00','09:00:00','1234567890');
+
+mysql> desc busdetail;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| bid      | int         | NO   | PRI | NULL    | auto_increment |
+| bname    | varchar(12) | YES  |     | NULL    |                |
+| routId   | int         | YES  | MUL | NULL    |                |
+| btype    | varchar(6)  | YES  |     | NULL    |                |
+| bseats   | int         | YES  |     | NULL    |                |
+| dtime    | time        | YES  |     | NULL    |                |
+| atime    | time        | YES  |     | NULL    |                |
+| helpline | varchar(10) | YES  | MUL | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+
+
+
+create table busroute
+(
+routId int unique not null auto_increment,
+source varchar(15),
+destination varchar(15),
+primary key (source,destination)
+);
+
+insert into busroute(source, destination) values('Rudrapur','Almora');
+
+mysql> desc busroute;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| routId      | int         | NO   | UNI | NULL    | auto_increment |
+| source      | varchar(15) | NO   | PRI | NULL    |                |
+| destination | varchar(15) | NO   | PRI | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+
+
+create table user
+(
+userid int primary key auto_increment,
+username varchar(12) unique not null,
+password varchar(15) not null,
+contact varchar(10) not null,
+name varchar(12) not null
+);
+
+mysql> desc user;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| userid   | int         | NO   | PRI | NULL    | auto_increment |
+| username | varchar(12) | NO   | UNI | NULL    |                |
+| password | varchar(15) | YES  |     | NULL    |                |
+| contact  | varchar(10) | YES  |     | NULL    |                |
+| name     | varchar(12) | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+
+
+
+create table seatallocation
+(
+tid int primary key auto_increment,
+userid int,
+slable int,
+bid int,
+trdate date,
+foreign key(bid) references busdetail(bid)ON DELETE CASCADE,
+foreign key(userid) references user(userid)ON DELETE CASCADE
+);
+
+mysql> desc seatallocation;
++--------+------+------+-----+---------+----------------+
+| Field  | Type | Null | Key | Default | Extra          |
++--------+------+------+-----+---------+----------------+
+| tid    | int  | NO   | PRI | NULL    | auto_increment |
+| userid | int  | YES  | MUL | NULL    |                |
+| slable | int  | YES  |     | NULL    |                |
+| bid    | int  | YES  | MUL | NULL    |                |
+| trdate | date | YES  |     | NULL    |                |
++--------+------+------+-----+---------+----------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
